@@ -1,0 +1,30 @@
+name: "Filesize Guard"
+description: "Blocks pull requests with unintentionally oversized files"
+author: "Chris Rutkowski"
+inputs:
+  ignore_file:
+    description: "Path to the ignore file to omit"
+    required: true
+    default: "./filesize_guard.ignore"
+  max_size_kb:
+    description: "Maximum allowed file size in kB"
+    required: true
+    default: "100"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v45
+      with:
+        separator: ","
+
+    - name: Run filesize guard
+      run: |
+        files="${{ steps.changed-files.outputs.added_files }},${{ steps.changed-files.outputs.modified_files }}"
+        python3 filesize_guard.py ${{ inputs.ignore_file }} ${{ inputs.max_size_kb }} "$files"
+      shell: bash
