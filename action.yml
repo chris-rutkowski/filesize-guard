@@ -25,7 +25,7 @@ runs:
 
     - name: Run filesize guard
       run: |
-        ls -l ../
+        ls -l ${GITHUB_ACTION_PATH}
         files="${{ steps.changed-files.outputs.added_files }},${{ steps.changed-files.outputs.modified_files }}"
-        python3 ../filesize-guard-src/filesize_guard.py ${{ inputs.ignore_file }} ${{ inputs.max_size_kb }} "$files"
+        python3 ${GITHUB_ACTION_PATH}/filesize-guard-src/filesize_guard.py ${{ inputs.ignore_file }} ${{ inputs.max_size_kb }} "$files"
       shell: bash
