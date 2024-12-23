@@ -29,7 +29,7 @@ for file in files:
     filesize_b = os.path.getsize(file)
     filesize_kb = filesize_b / 1024
     if filesize_kb >= max_size_kb:
-        print(f"Error: '{file}' exceeds {max_size_kb} kB ({filesize_kb:.2f} kB)")
+        print(f"Error: '{file}' is {filesize_kb:.2f} kB, which exceeds the allowed limit of {max_size_kb} kB.")
         exit_code = 1
 
 sys.exit(exit_code)
