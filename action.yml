@@ -3,7 +3,7 @@ description: "Blocks pull requests with unintentionally oversized files"
 author: "Chris Rutkowski"
 inputs:
   ignore_file:
-    description: "Path to the ignore file to omit"
+    description: "Path to the ignore file"
     required: true
     default: "./filesize_guard.ignore"
   max_size_kb:
@@ -23,9 +23,8 @@ runs:
       with:
         separator: ","
 
-    - name: Run filesize guard
+    - name: Run Filesize Guard
       run: |
-        ls -l ${GITHUB_ACTION_PATH}
         files="${{ steps.changed-files.outputs.added_files }},${{ steps.changed-files.outputs.modified_files }}"
         python3 ${GITHUB_ACTION_PATH}/filesize_guard.py ${{ inputs.ignore_file }} ${{ inputs.max_size_kb }} "$files"
       shell: bash

@@ -54,7 +54,7 @@ By default, the file size limit is set to **100 kB**. You can customize this by 
 
 ```yaml
 steps:
-  - name: Run Filesize Guard
+  - name: Filesize Guard
     uses: chris-rutkowski/filesize-guard@v1.0.0
       with:
         max_size_kb: 50
@@ -65,7 +65,7 @@ If your `filesize_guard.ignore` file is not in the root directory, specify its l
 
 ```yaml
 steps:
-  - name: Run Filesize Guard
+  - name: Filesize Guard
     uses: chris-rutkowski/filesize-guard@v1.0.0
       with:
         ignore_file: ./my/path/my_filesize_guard.ignore
