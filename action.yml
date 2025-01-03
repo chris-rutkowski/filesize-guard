@@ -21,10 +21,12 @@ runs:
       id: changed-files
       uses: tj-actions/changed-files@v45
       with:
-        separator: ","
+        json: true
+        write_output_files: true
+        safe_output: false
 
     - name: Run Filesize Guard
       run: |
         files="${{ steps.changed-files.outputs.added_files }},${{ steps.changed-files.outputs.modified_files }}"
-        python3 ${GITHUB_ACTION_PATH}/filesize_guard.py ${{ inputs.ignore_file }} ${{ inputs.max_size_kb }} "$files"
+        python3 ${GITHUB_ACTION_PATH}/filesize_guard.py ${{ inputs.ignore_file }} ${{ inputs.max_size_kb }} .github/outputs/modified_files.json .github/outputs/added_files.json
       shell: bash

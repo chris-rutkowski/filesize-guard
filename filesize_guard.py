@@ -1,6 +1,7 @@
-import sys
 import os
 import fnmatch
+import json
+import sys
 
 def load_ignore_patterns(ignore_file):
     with open(ignore_file, "r") as f:
@@ -9,11 +10,17 @@ def load_ignore_patterns(ignore_file):
 def should_ignore(file, patterns):
     return any(fnmatch.fnmatch(file, pattern) for pattern in patterns)
 
-ignore_file = sys.argv[1]
-max_size_kb = int(sys.argv[2])
-files = sys.argv[3].split(",")
+def load_files_from_json(file_paths):
+    files = []
+    for file_path in file_paths:
+        with open(file_path, "r") as f:
+            files.extend(json.load(f))
+    return files
 
-ignore_patterns = load_ignore_patterns(ignore_file)
+ignore_patterns = load_ignore_patterns(sys.argv[1])
+max_size_kb = int(sys.argv[2])
+files = load_files_from_json(sys.argv[3:])
+
 exit_code = 0
 
 for file in files:

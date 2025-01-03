@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Filesize Guard
-        uses: chris-rutkowski/filesize-guard@v1.0.0
+        uses: chris-rutkowski/filesize-guard@v1.0.1
 ```
 
 ---
@@ -55,7 +55,7 @@ By default, the file size limit is set to **100 kB**. You can customize this by 
 ```yaml
 steps:
   - name: Filesize Guard
-    uses: chris-rutkowski/filesize-guard@v1.0.0
+    uses: chris-rutkowski/filesize-guard@v1.0.1
       with:
         max_size_kb: 50
 ```
@@ -66,7 +66,7 @@ If your `filesize_guard.ignore` file is not in the root directory, specify its l
 ```yaml
 steps:
   - name: Filesize Guard
-    uses: chris-rutkowski/filesize-guard@v1.0.0
+    uses: chris-rutkowski/filesize-guard@v1.0.1
       with:
         ignore_file: ./my/path/my_filesize_guard.ignore
 ```
