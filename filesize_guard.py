@@ -1,11 +1,23 @@
-import os
 import fnmatch
 import json
+import os
 import sys
 
+DEFAULT_IGNORE_FILE = "./filesize_guard.ignore"
+
 def load_ignore_patterns(ignore_file):
+    default_patterns = [".git/*"]
+
+    if not os.path.exists(ignore_file):
+        if ignore_file == DEFAULT_IGNORE_FILE:
+            return default_patterns
+
+        print(f"Error: The specified ignore file '{ignore_file}' does not exist.", file=sys.stderr)
+        sys.exit(1)
+
     with open(ignore_file, "r") as f:
-        return [line.strip() for line in f if line.strip() and not line.startswith("#")]
+        patterns = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+    return default_patterns + patterns
 
 def should_ignore(file, patterns):
     return any(fnmatch.fnmatch(file, pattern) for pattern in patterns)
@@ -13,6 +25,8 @@ def should_ignore(file, patterns):
 def load_files_from_json(file_paths):
     files = []
     for file_path in file_paths:
+        if not os.path.exists(file_path):
+            continue
         with open(file_path, "r") as f:
             files.extend(json.load(f))
     return files
@@ -28,10 +42,7 @@ for file in files:
         continue
 
     if should_ignore(file, ignore_patterns):
-        print(f"Ignoring: '{file}'")
         continue
-
-    print(f"Processing: '{file}'")
 
     filesize_b = os.path.getsize(file)
     filesize_kb = filesize_b / 1024
