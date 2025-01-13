@@ -34,7 +34,7 @@ name: Filesize Guard
 on:
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
